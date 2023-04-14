@@ -1,3 +1,5 @@
+import {addUserToDb} from "./db";
+
 function usage() {
     console.log("Usage:");
     console.log("  users-db-cli.ts --list       - fetch all users");
@@ -10,7 +12,8 @@ async function listUsers() {
 }
 
 async function addUser(name: string) {
-    console.log('Add user', name)
+    await addUserToDb(name)
+    console.log(`Added user ${name}!`)
 }
 
 async function main() {
