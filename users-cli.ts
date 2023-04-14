@@ -7,26 +7,7 @@ function usage() {
     process.exit(1);
 }
 
-const padding = 10
-
-
-async function listUsers() {
-    const users = await listUsersFromDb();
-
-    // Print users
-    console.log('ID'.padEnd(padding), 'Name')
-    for (const u of users) {
-        const paddedId = u.id.toString().padEnd(padding)
-        console.log(paddedId, u.name)
-    }
-}
-
-async function addUser(name: string) {
-    await addUserToDb(name)
-    console.log(`Added user ${name}!`)
-}
-
-export async function main() {
+async function main() {
     if (process.argv.length < 3) {
         usage();
     }
@@ -41,6 +22,25 @@ export async function main() {
     } else {
         usage();
     }
+}
+
+
+const padding = 10
+
+async function listUsers() {
+    const users = await listUsersFromDb();
+    // Print users
+    console.log('ID'.padEnd(padding), 'Name')
+    console.log('-----'.padEnd(padding), '-----')
+    for (const u of users) {
+        const paddedId = u.id.toString().padEnd(padding)
+        console.log(paddedId, u.name)
+    }
+}
+
+async function addUser(name: string) {
+    await addUserToDb(name)
+    console.log(`Added user ${name}!`)
 }
 
 
