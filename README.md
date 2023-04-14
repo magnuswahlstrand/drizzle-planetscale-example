@@ -15,7 +15,7 @@ npx tsc --init
 ### Code
 Next we create a basic cli application
 
-2. Create **users-cli.ts**
+2. Create **index.ts**
 ```ts
 function usage() {
     console.log("Usage:");
@@ -62,7 +62,7 @@ main()
 #### Test run
 
 ```
-> npx ts-node users-cli.ts --add magnus
+> npx ts-node index.ts --add magnus
 
 Add user magnus
 Success!
