@@ -1,37 +1,5 @@
-import {drizzle} from 'drizzle-orm/planetscale-serverless';
+import {addUserToDb, listUsersFromDb} from "./db";
 
-import {int, mysqlTable, text, timestamp} from "drizzle-orm/mysql-core";
-
-import {connect} from '@planetscale/database';
-
-// Schemas
-export const usersTable = mysqlTable('users', {
-    id: int('id').autoincrement().primaryKey(),
-    name: text('name').notNull(),
-    created_at: timestamp('created_at').notNull().defaultNow(),
-});
-
-// DB things
-const connection = connect({
-    host: "aws.connect.psdb.cloud",
-    username: process.env.PLANETSCALE_USERNAME,
-    password: process.env.PLANETSCALE_PASSWORD,
-});
-
-export const db = drizzle(connection);
-
-export async function addUserToDb(name: string) {
-    await db.insert(usersTable)
-        .values({name})
-}
-
-export async function listUsersFromDb() {
-    return db
-        .select()
-        .from(usersTable)
-}
-
-// Main
 function usage() {
     console.log("Usage:");
     console.log("  users-db-cli.ts --list       - fetch all users");
@@ -39,8 +7,18 @@ function usage() {
     process.exit(1);
 }
 
+const padding = 10
+
+
 async function listUsers() {
-    console.log('List users')
+    const users = await listUsersFromDb();
+
+    // Print users
+    console.log('ID'.padEnd(padding), 'Name')
+    for (const u of users) {
+        const paddedId = u.id.toString().padEnd(padding)
+        console.log(paddedId, u.name)
+    }
 }
 
 async function addUser(name: string) {
